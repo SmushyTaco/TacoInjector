@@ -118,31 +118,21 @@ public partial class MainPage
         }
     }
 
-    private async void OnSelectClicked(object? sender, EventArgs e)
+    private void OnSelectClicked(object? sender, EventArgs e)
     {
         try
         {
-            var dllFileType = new FilePickerFileType(
-                new Dictionary<DevicePlatform, IEnumerable<string>>
-                {
-                    [DevicePlatform.WinUI] = [".dll"]
-                });
+            var selectedPath = NativeDllFileDialog.PickDllPath(WindowChrome.WindowHandle);
 
-            var result = await FilePicker.Default.PickAsync(new PickOptions
-            {
-                PickerTitle = "Select the .dll file",
-                FileTypes = dllFileType
-            });
-
-            if (result is null)
+            if (string.IsNullOrWhiteSpace(selectedPath))
                 return;
 
-            DllPathEntry.Text = result.FullPath;
+            DllPathEntry.Text = selectedPath;
             UpdateInjectButtonState();
         }
         catch (Exception ex)
         {
-            StatusLabel.Text = $"File picker failed: {ex.Message}";
+            StatusLabel.Text = $"File dialog failed: {ex.Message}";
         }
     }
 

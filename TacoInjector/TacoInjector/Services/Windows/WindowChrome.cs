@@ -41,6 +41,8 @@ internal static partial class WindowChrome
     private static nint _hwnd;
     private static PointInt32 _dragStartPosition;
 
+    public static nint WindowHandle => _hwnd;
+
     public static void Apply(WinUIWindow window)
     {
         _hwnd = WindowNative.GetWindowHandle(window);
